@@ -6,8 +6,8 @@ import json
 
 base_api_url = "https://discord.com/api/v9/"
 
-get_message = "channels/862348023764746279/message/862603484171599872"
-get_info = "users/@me"
+get_message = "channels/862348023764746279/message/862603484171599872" #메세지 읽기용
+get_info = "users/@me" #정보 읽기용
 
 #TODO 인증 과정 거치기
 #TODO 스노우플레이크에 대해 알아보기
