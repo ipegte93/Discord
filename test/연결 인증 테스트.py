@@ -2,6 +2,8 @@
 #시발 포기함 이거 안됨
 #답은 이거임 https://discord.com/developers/docs/topics/gateway#gateways
 
+#여기에 기초적인 설명도 있음 https://www.toptal.com/chatbot/how-to-make-a-discord-bot
+
 import requests
 
 CLIENT_ID = "889476456470687754"
