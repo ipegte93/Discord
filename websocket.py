@@ -2,6 +2,8 @@ import asyncio
 import websockets
 import json
 
+#TODO identify 과정 추가
+
 class Websocket:
     async def connect(self):
         async with websockets.connect("wss://gateway.discord.gg") as self.ws:
