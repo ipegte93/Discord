@@ -5,6 +5,9 @@ import json
 #TODO identify 과정 추가
 
 class Websocket:
+    def __init__(self, BOT_TOKEN):
+        self.TOKEN = BOT_TOKEN
+
     async def connect(self):
         async with websockets.connect("wss://gateway.discord.gg") as self.ws:
             await self.handler()
@@ -49,7 +52,7 @@ class Websocket:
         data = {
             "op": 2,
             "d": {
-                "token": "ODg5NDc2NDU2NDcwNjg3NzU0.YUhzgA.EAA98t75vVFvHFlmhAohnDEDN4Q",
+                "token": self.TOKEN,
                 "intents": 513,
                 "properties": {
                 "$os": "linux",
