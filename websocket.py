@@ -16,10 +16,16 @@ class Websocket:
 
     async def consumer(self, msg):
         op = msg["op"]
-        if op == 10:
+        if op == 0: # Dispatch
+            print(msg)
+        if op == 7: # Reconnect
+            print(msg)
+        if op == 9: # Invalid Session
+            print(msg)
+        if op == 10: # Hello
             self.interval = int(msg["d"]["heartbeat_interval"])/1000
             asyncio.create_task(self.heartbeat())
-        if op == 11:
+        if op == 11: #Heartbeat ACK
             asyncio.create_task(self.heartbeat())
 
     async def heartbeat(self):
