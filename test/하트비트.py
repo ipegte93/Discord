@@ -21,6 +21,6 @@ async def main():
             await websocket.send(data)
             await asyncio.create_task(heartbeat())
 
-        await heartbeat()
+        await asyncio.create_task(heartbeat())
 
 asyncio.run(main())
