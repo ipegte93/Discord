@@ -2,16 +2,6 @@ import asyncio
 import websockets
 import json
 
-async def heartbeat(interval):
-
-    data = {
-    "op": 1,
-    "d" : None
-    }
-    print(interval)
-    await asyncio.sleep(int(interval)/1000)
-    return json.dumps(data)
-
 async def main():
     async with websockets.connect("wss://gateway.discord.gg") as websocket:
         res = await websocket.recv()
@@ -19,7 +9,7 @@ async def main():
         heartbeat_interval = res["d"]["heartbeat_interval"]
         print(int(heartbeat_interval)/1000)
 
-        async def heart():
+        async def heartbeat():
             data = {
                 "op": 1,
                 "d": None
@@ -29,8 +19,8 @@ async def main():
             await asyncio.sleep(int(heartbeat_interval)/1000)
             print("send")
             await websocket.send(data)
-            await asyncio.create_task(heart())
+            await asyncio.create_task(heartbeat())
 
-        await heart()
+        await heartbeat()
 
 asyncio.run(main())
