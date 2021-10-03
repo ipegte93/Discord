@@ -8,6 +8,9 @@ class Websocket:
     def __init__(self, BOT_TOKEN):
         self.TOKEN = BOT_TOKEN
 
+    def start(self):
+        asyncio.run(self.connect())
+
     async def connect(self):
         async with websockets.connect("wss://gateway.discord.gg") as self.ws:
             await self.handler()
