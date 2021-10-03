@@ -10,25 +10,28 @@ class Websocket:
             await self.handler()
 
     async def handler(self):
+        await self.identify()
         while True:
             msg = await self.ws.recv()
             msg = json.loads(msg)
-            print(msg)
             await self.consumer(msg)
 
     async def consumer(self, msg):
         op = msg["op"]
+
         if op == 0: # Dispatch
-            print(msg)
-        if op == 7: # Reconnect
-            print(msg)
-        if op == 9: # Invalid Session
-            print(msg)
-        if op == 10: # Hello
+            print(msg["d"])
+        # elif op == 7: # Reconnect
+        #     print(msg)
+        # elif op == 9: # Invalid Session
+        #     print(msg)
+        elif op == 10: # Hello
             self.interval = int(msg["d"]["heartbeat_interval"])/1000
             asyncio.create_task(self.heartbeat())
-        if op == 11: #Heartbeat ACK
+        elif op == 11: #Heartbeat ACK
             asyncio.create_task(self.heartbeat())
+        # else:
+        #     print(msg)
 
     async def heartbeat(self):
         await asyncio.sleep(self.interval)
@@ -40,6 +43,24 @@ class Websocket:
         data = json.dumps(data)
 
         print("send Heartbeat")
+        await self.ws.send(data)
+
+    async def identify(self):
+        data = {
+            "op": 2,
+            "d": {
+                "token": "ODg5NDc2NDU2NDcwNjg3NzU0.YUhzgA.EAA98t75vVFvHFlmhAohnDEDN4Q",
+                "intents": 513,
+                "properties": {
+                "$os": "linux",
+                "$browser": "my_library",
+                "$device": "my_library"
+                }
+            }
+        }
+        data = json.dumps(data)
+
+        print("identifying")
         await self.ws.send(data)
 
 if __name__ == "__main__":
