@@ -18,7 +18,7 @@ class Websocket:
     async def identify(self):
         data = {
             "op": 2,
-            "d": {
+            'd': {
                 "token": self.TOKEN,
                 "intents": 513,
                 "properties": {
@@ -44,16 +44,22 @@ class Websocket:
         op = msg["op"]
 
         if op == 0: # Dispatch
-            print(msg["d"])
+            self.opcode0(msg)
         elif op == 7: # Reconnect
             print(msg)
         elif op == 9: # Invalid Session
             print(msg)
         elif op == 10: # Hello
-            self.interval = int(msg["d"]["heartbeat_interval"])/1000
+            self.interval = int(msg['d']["heartbeat_interval"])/1000
             asyncio.create_task(self.heartbeat())
         elif op == 11: #Heartbeat ACK
             asyncio.create_task(self.heartbeat())
+        else:
+            print(msg)
+
+    def opcode0(self, msg):
+        if msg['t'] == "MESSAGE_CREATE":
+            print(msg['d']['content'])
         else:
             print(msg)
 
@@ -62,7 +68,7 @@ class Websocket:
 
         data = {
             "op": 1,
-            "d": None
+            'd': None
         }
         data = json.dumps(data)
 
