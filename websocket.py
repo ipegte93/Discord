@@ -1,6 +1,7 @@
 import asyncio
 import websockets
 import json
+import sys
 
 class Websocket:
     def __init__(self, BOT_TOKEN):
@@ -20,9 +21,9 @@ class Websocket:
                 "token": self.TOKEN,
                 "intents": 513,
                 "properties": {
-                "$os": "linux",
-                "$browser": "my_library",
-                "$device": "my_library"
+                "$os": sys.platform,
+                "$browser": "bot",
+                "$device": "bot"
                 }
             }
         }
