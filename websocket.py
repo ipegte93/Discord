@@ -2,8 +2,6 @@ import asyncio
 import websockets
 import json
 
-#TODO identify 과정 추가
-
 class Websocket:
     def __init__(self, BOT_TOKEN):
         self.TOKEN = BOT_TOKEN
@@ -58,8 +56,13 @@ class Websocket:
             print(msg)
 
     def opcode0(self, msg):
-        if msg['t'] == "MESSAGE_CREATE":
-            print(msg['d']['content'])
+        t = msg['t']
+        if t == "READY":
+            pass
+        elif t == "MESSAGE_CREATE": # Reading New Message
+            print(msg)
+        elif t == "GUILD_CREATE":
+            pass
         else:
             print(msg)
 
@@ -72,5 +75,4 @@ class Websocket:
         }
         data = json.dumps(data)
 
-        print("send Heartbeat")
         await self.ws.send(data)
