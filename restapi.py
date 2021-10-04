@@ -10,10 +10,10 @@ class restapi:
             "content": msg,
             "tts": False,
         }
-        asyncio.run(self.post(payload))
+        asyncio.run(self.post(CHANNEL_ID, payload))
 
     async def post(self, CHANNEL_ID, payload):
         async with aiohttp.ClientSession() as session:
             header = {"authorization": "Bot " + self.token}
-            async with session.post("https://discord.com/api/v9/channels/"+CHANNEL_ID+"/messages", data=payload, headers=header) as res:
+            async with session.post("https://discord.com/api/v9/channels/"+str(CHANNEL_ID)+"/messages", data=payload, headers=header) as res:
                 print(await res.text())
