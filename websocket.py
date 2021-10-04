@@ -62,6 +62,8 @@ class Websocket:
             print(msg)
         elif t == "GUILD_CREATE":
             pass
+        elif t == "INTERACTION_CREATE":
+            pass
         else:
             print(msg)
 
