@@ -28,7 +28,6 @@ class Websocket:
         }
         data = json.dumps(data)
 
-        print("identifying")
         await self.ws.send(data)
 
     async def handler(self):
@@ -58,7 +57,7 @@ class Websocket:
     def opcode0(self, msg):
         t = msg['t']
         if t == "READY":
-            pass
+            print("Bot ready")
         elif t == "MESSAGE_CREATE": # Reading New Message
             print(msg)
         elif t == "GUILD_CREATE":
