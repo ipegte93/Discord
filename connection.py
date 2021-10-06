@@ -3,8 +3,8 @@ import websockets
 import json
 import sys
 
-class Websocket:
-    def __init__(self, BOT_TOKEN):
+class websocket:
+    def __init__(self, BOT_TOKEN: str):
         self.TOKEN = BOT_TOKEN
 
     def start(self):
@@ -38,7 +38,7 @@ class Websocket:
             msg = json.loads(msg)
             await self.consumer(msg)
 
-    async def consumer(self, msg):
+    async def consumer(self, msg: dict):
         op = msg["op"]
 
         if op == 0: # Dispatch
@@ -55,7 +55,7 @@ class Websocket:
         else:
             print(msg)
 
-    def opcode0(self, msg):
+    def opcode0(self, msg: dict):
         t = msg['t']
         if t == "READY":
             print("Bot ready")
