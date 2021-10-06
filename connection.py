@@ -15,6 +15,13 @@ class Websocket:
         async with websockets.connect("wss://gateway.discord.gg") as self.ws:
             await self.handler()
 
+    async def handler(self):
+        await self.identify()
+        while True:
+            msg = await self.ws.recv()
+            msg = json.loads(msg)
+            await self.consumer(msg)
+
     async def identify(self):
         data = {
             "op": 2,
@@ -32,12 +39,6 @@ class Websocket:
 
         await self.ws.send(data)
 
-    async def handler(self):
-        await self.identify()
-        while True:
-            msg = await self.ws.recv()
-            msg = json.loads(msg)
-            await self.consumer(msg)
 
     async def consumer(self, msg: dict):
         op = msg["op"]
