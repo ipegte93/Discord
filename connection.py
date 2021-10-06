@@ -4,7 +4,7 @@ import json
 import sys
 import aiohttp
 
-class websocket:
+class Websocket:
     def __init__(self, BOT_TOKEN: str):
         self.TOKEN = BOT_TOKEN
 
@@ -80,19 +80,17 @@ class websocket:
 
         await self.ws.send(data)
 
-
-class route:
+class Route:
     def __init__(self, method: str, path: str):
         self.url = "https://discord.com/api/v9/" + path
         self.method = method
 
-
-class restapi:
+class RestAPI:
     def __init__(self, BOT_TOKEN: str):
         self.headers = dict()
         self.headers['authorization'] = "Bot " + BOT_TOKEN
 
-    async def request(self, route: route, **kwargs):
+    async def request(self, route: Route, **kwargs: any):
         payload = None
         if "payload" in kwargs:
             payload = kwargs["payload"]
