@@ -82,7 +82,7 @@ class websocket:
 
 
 class route:
-    def __init__(self, method: str, path: str, **kwargs):
+    def __init__(self, method: str, path: str):
         self.url = "https://discord.com/api/v9/" + path
         self.method = method
 
