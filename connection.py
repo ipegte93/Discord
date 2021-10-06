@@ -39,7 +39,6 @@ class Websocket:
 
         await self.ws.send(data)
 
-
     async def consumer(self, msg: dict):
         op = msg["op"]
 
