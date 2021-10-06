@@ -49,7 +49,7 @@ class Websocket:
         elif op == 9: # Invalid Session
             print(msg)
         elif op == 10: # Hello
-            self.interval = int(msg['d']["heartbeat_interval"])/1000
+            self.heartbeat_interval = int(msg['d']["heartbeat_interval"])/1000
             asyncio.create_task(self.heartbeat())
         elif op == 11: #Heartbeat ACK
             asyncio.create_task(self.heartbeat())
@@ -70,7 +70,7 @@ class Websocket:
             print(msg)
 
     async def heartbeat(self):
-        await asyncio.sleep(self.interval)
+        await asyncio.sleep(self.heartbeat_interval)
 
         data = {
             "op": 1,
@@ -82,7 +82,7 @@ class Websocket:
 
 class Route:
     def __init__(self, method: str, path: str):
-        self.url = "https://discord.com/api/v9/" + path
+        self.url = "https://discord.com/api/v9" + path
         self.method = method
 
 class RestAPI:
