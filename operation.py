@@ -13,12 +13,12 @@ class restapi:
 
     async def request(self, route: route, **kwargs):
         async with aiohttp.ClientSession(headers=self.headers) as session:
-            if kwargs is not None:
-                async with session.request(route.method, route.url, kwargs) as resp:
-                    print(await resp.text())
-            else:
-                async with session.request(route.method, route.url) as resp:
-                    print(await resp.text())
+            payload = None
+            if "payload" in kwargs:
+                payload = kwargs["payload"]
+
+            async with session.request(route.method, route.url, data=payload) as resp:
+                print(await resp.text())
 
 
 
