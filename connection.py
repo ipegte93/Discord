@@ -4,7 +4,7 @@ import json
 import sys
 import aiohttp
 
-from commands import Message
+from commands import ResponseHandler
 
 class Websocket:
     def __init__(self, BOT_TOKEN: str):
@@ -62,7 +62,7 @@ class Websocket:
         if response['t'] == "READY":
             print("Bot ready")
         else:
-            Message(response)
+            ResponseHandler(response)
 
     async def __heartbeat(self):
         await asyncio.sleep(self.heartbeat_interval)
