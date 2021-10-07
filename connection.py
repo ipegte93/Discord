@@ -13,16 +13,16 @@ class Websocket:
 
     async def connect(self):
         async with websockets.connect("wss://gateway.discord.gg") as self.ws:
-            await self.handler()
+            await self.__handler()
 
-    async def handler(self):
-        await self.identify()
+    async def __handler(self):
+        await self.__identify()
         while True:
             msg = await self.ws.recv()
             msg = json.loads(msg)
-            await self.consumer(msg)
+            await self.__consumer(msg)
 
-    async def identify(self):
+    async def __identify(self):
         data = {
             "op": 2,
             'd': {
@@ -39,7 +39,7 @@ class Websocket:
 
         await self.ws.send(data)
 
-    async def consumer(self, msg: dict):
+    async def __consumer(self, msg: dict):
         op = msg["op"]
 
         if op == 0: # Dispatch
@@ -50,9 +50,9 @@ class Websocket:
             print(msg)
         elif op == 10: # Hello
             self.heartbeat_interval = int(msg['d']["heartbeat_interval"])/1000
-            asyncio.create_task(self.heartbeat())
+            asyncio.create_task(self.__heartbeat())
         elif op == 11: #Heartbeat ACK
-            asyncio.create_task(self.heartbeat())
+            asyncio.create_task(self.__heartbeat())
         else:
             print(msg)
 
@@ -69,7 +69,7 @@ class Websocket:
         else:
             print(msg)
 
-    async def heartbeat(self):
+    async def __heartbeat(self):
         await asyncio.sleep(self.heartbeat_interval)
 
         data = {
