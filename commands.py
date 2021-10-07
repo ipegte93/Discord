@@ -19,10 +19,24 @@ class Commands:
                 if self.msg.content == self.__command_prefix + method:
                     func = getattr(Commands, method)
                     func(self)
+    def help(self):
+        payload = {}
+        data = ""
+        for method in dir(self):
+            if method.startswith('--') is False:
+                data += method + ","
+
+        data = data[:-1]
+        payload["content"] = data
+
+        http = RestAPI(self.TOKEN)
+        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.msg.chaneel_id)),payload=payload))
+
 
     def ping(self):
         payload = {}
         payload["content"] = "pong"
+
         http = RestAPI(self.TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.msg.chaneel_id)),payload=payload))
 
