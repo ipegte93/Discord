@@ -27,7 +27,7 @@ class Commands:
             if method.startswith('_') is False:
                 data += method + ", "
 
-        data = data[:-1]
+        data = data[:-2]
         payload["content"] = data
 
         http = RestAPI(self.__TOKEN)
