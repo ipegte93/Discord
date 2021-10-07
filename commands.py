@@ -10,34 +10,34 @@ class Message:
 
 class Commands:
     def __init__(self, msg: Message, BOT_TOKEN: str):
-        self.TOKEN = BOT_TOKEN
+        self.__TOKEN = BOT_TOKEN
         self.__command_prefix = '!'
-        self.msg = msg
+        self.__msg = msg
 
         for method in dir(self):
-            if method.startswith('--') is False:
-                if self.msg.content == self.__command_prefix + method:
+            if method.startswith('_') is False:
+                if self.__msg.content == self.__command_prefix + method:
                     func = getattr(Commands, method)
                     func(self)
+
     def help(self):
         payload = {}
         data = ""
         for method in dir(self):
-            if method.startswith('--') is False:
-                data += method + ","
+            if method.startswith('_') is False:
+                data += method + ", "
 
         data = data[:-1]
         payload["content"] = data
 
-        http = RestAPI(self.TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.msg.chaneel_id)),payload=payload))
-
+        http = RestAPI(self.__TOKEN)
+        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
     def ping(self):
         payload = {}
         payload["content"] = "pong"
 
-        http = RestAPI(self.TOKEN)
+        http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.msg.chaneel_id)),payload=payload))
 
 class ResponseHandler:
