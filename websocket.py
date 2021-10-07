@@ -6,7 +6,7 @@ import aiohttp
 
 from commands import ResponseHandler
 
-class Websocket:
+class DiscordWebsocket:
     def __init__(self, BOT_TOKEN: str):
         self.TOKEN = BOT_TOKEN
 
