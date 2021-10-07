@@ -4,6 +4,8 @@ import json
 import sys
 import aiohttp
 
+from commands import Message
+
 class Websocket:
     def __init__(self, BOT_TOKEN: str):
         self.TOKEN = BOT_TOKEN
@@ -18,12 +20,12 @@ class Websocket:
     async def __handler(self):
         await self.__identify()
         while True:
-            msg = await self.ws.recv()
-            msg = json.loads(msg)
-            await self.__consumer(msg)
+            response = await self.ws.recv()
+            response = json.loads(response)
+            await self.__consumer(response)
 
     async def __identify(self):
-        data = {
+        payload = {
             "op": 2,
             'd': {
                 "token": self.TOKEN,
@@ -35,50 +37,43 @@ class Websocket:
                 }
             }
         }
-        data = json.dumps(data)
+        payload = json.dumps(payload)
 
-        await self.ws.send(data)
+        await self.ws.send(payload)
 
-    async def __consumer(self, msg: dict):
-        op = msg["op"]
+    async def __consumer(self, response: dict):
+        op = response["op"]
 
         if op == 0: # Dispatch
-            self.opcode0(msg)
+            self.__dispatch(response)
         elif op == 7: # Reconnect
-            print(msg)
+            print(response)
         elif op == 9: # Invalid Session
-            print(msg)
+            print(response)
         elif op == 10: # Hello
-            self.heartbeat_interval = int(msg['d']["heartbeat_interval"])/1000
+            self.heartbeat_interval = int(response['d']["heartbeat_interval"])/1000
             asyncio.create_task(self.__heartbeat())
         elif op == 11: #Heartbeat ACK
             asyncio.create_task(self.__heartbeat())
         else:
-            print(msg)
+            print(response)
 
-    def opcode0(self, msg: dict):
-        t = msg['t']
-        if t == "READY":
+    def __dispatch(self, response: dict):
+        if response['t'] == "READY":
             print("Bot ready")
-        elif t == "MESSAGE_CREATE": # Reading New Message
-            print(msg)
-        elif t == "GUILD_CREATE":
-            pass
-        elif t == "INTERACTION_CREATE":
-            pass
         else:
-            print(msg)
+            Message(response)
 
     async def __heartbeat(self):
         await asyncio.sleep(self.heartbeat_interval)
 
-        data = {
+        payload = {
             "op": 1,
             'd': None
         }
-        data = json.dumps(data)
+        payload = json.dumps(payload)
 
-        await self.ws.send(data)
+        await self.ws.send(payload)
 
 class Route:
     def __init__(self, method: str, path: str):
@@ -95,5 +90,5 @@ class RestAPI:
         if "payload" in kwargs:
             payload = kwargs["payload"]
 
-        async with aiohttp.request(route.method, route.url, headers=self.headers, data=payload) as resp:
-            print(await resp.text())
+        async with aiohttp.request(route.method, route.url, headers=self.headers, data=payload) as response:
+            print(await response.text())
