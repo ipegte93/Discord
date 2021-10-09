@@ -1,4 +1,5 @@
 import aiohttp
+import json
 
 class Route:
     def __init__(self, method: str, path: str):
@@ -15,5 +16,6 @@ class RestAPI:
         if "payload" in kwargs:
             payload = kwargs["payload"]
 
+        payload = json.dumps(payload)
         async with aiohttp.request(route.method, route.url, headers=self.headers, data=payload) as response:
             print(await response.text())
