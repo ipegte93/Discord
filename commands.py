@@ -38,7 +38,7 @@ class Commands:
         payload["content"] = "pong"
 
         http = RestAPI(self.__TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.msg.chaneel_id)),payload=payload))
+        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
 class ResponseHandler:
     def __init__(self, response: dict, BOT_TOKEN: str):
