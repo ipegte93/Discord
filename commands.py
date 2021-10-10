@@ -40,14 +40,20 @@ class Commands:
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
+    def shutdown(self):
+        exit()
+
 class ResponseHandler:
     def __init__(self, response: dict, BOT_TOKEN: str):
         self.TOKEN = BOT_TOKEN
         self.__handler(response)
 
     def __handler(self, response: dict):
-        if response['t'] == "MESSAGE_CREATE":
+        res = response['t']
+        if res == "MESSAGE_CREATE":
             self.__parser(response)
+        elif res == "GUILD_CREATE":
+            pass
         else:
             print(response)
 
