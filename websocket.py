@@ -45,7 +45,7 @@ class DiscordWebsocket:
         op = response["op"]
 
         if op == 0: # Dispatch
-            self.__dispatch(response)
+            self.__op0(response)
         elif op == 7: # Reconnect
             print(response)
         elif op == 9: # Invalid Session
@@ -58,7 +58,7 @@ class DiscordWebsocket:
         else:
             print(response)
 
-    def __dispatch(self, response: dict):
+    def __op0(self, response: dict):
         if response['t'] == "READY":
             print("Bot ready")
         else:
