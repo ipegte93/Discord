@@ -14,7 +14,7 @@ class Commands:
         self.__command_prefix = '!'
         self.__msg = msg
 
-        for method in dir(self):
+        for method in dir(self): #message를 스페이스로 slice() 해서 args로 넘기는 기능 만들고 있음
             if method.startswith('_') is False:
                 if self.__msg.content == self.__command_prefix + method:
                     func = getattr(Commands, method)
@@ -42,6 +42,9 @@ class Commands:
 
     def shutdown(self):
         exit()
+
+    def mule(self):
+        pass
 
 class ResponseHandler:
     def __init__(self, response: dict, BOT_TOKEN: str):
