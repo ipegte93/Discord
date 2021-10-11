@@ -1,5 +1,6 @@
 import asyncio
-from restapi import *
+from core import RestAPI
+from core import Route
 
 class Message:
     def __init__(self, author, content, message_id, channel_id):
