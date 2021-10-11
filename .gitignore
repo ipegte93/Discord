@@ -1,5 +1,2 @@
-/.vscode
-/test/__pycache__
-/__pycache__
-
-/start.py
+.vscode
+__pycache__
