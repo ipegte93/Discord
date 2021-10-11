@@ -2,8 +2,11 @@
 TOKEN = ""
 
 if TOKEN == "":
-    print("TOKEN not valid!")
-    exit()
+    import sys
+    TOKEN = sys.argv[1]
+    if TOKEN == "":
+        print("TOKEN not valid!")
+        exit()
 
 import asyncio
 from core import DiscordWebsocket
