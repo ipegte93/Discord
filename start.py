@@ -1,11 +1,13 @@
 # TOKEN = "<YOUR BOT TOKEN>"
-TOKEN = ""
+TOKEN = None
 
-if TOKEN == "":
+if TOKEN == None:
     import sys
-    TOKEN = sys.argv[1]
-    if TOKEN == "":
-        print("TOKEN not valid!")
+    try:
+        TOKEN = sys.argv[1]
+
+    except:
+        print("Token invalid")
         exit()
 
 import asyncio
