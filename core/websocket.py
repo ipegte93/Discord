@@ -49,7 +49,8 @@ class DiscordWebsocket:
         elif op == 7: # Reconnect
             print(response)
         elif op == 9: # Invalid Session
-            print(response)
+            print("bot can't connect!")
+            exit()
         elif op == 10: # Hello
             self.heartbeat_interval = int(response['d']["heartbeat_interval"])/1000
             asyncio.create_task(self.__heartbeat())
