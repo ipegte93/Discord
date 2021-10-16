@@ -22,7 +22,7 @@ class Commands:
             content = content[1:].split(" ")
             for method in dir(self):
                 if method.startswith("_") is False:
-                    if content[0] == method:
+                    if content[0] == method: #디스코드에서 사진만 올렸을 때 이부분에서 튕김
                         if len(content) == 1:
                             args = None
                         else:
