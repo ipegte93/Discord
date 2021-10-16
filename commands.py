@@ -21,11 +21,15 @@ class Commands:
             for method in dir(self):
                 if method.startswith("_") is False:
                     if content[0] == method:
+                        if len(content) == 1:
+                            args = None
+                        else:
+                            args = content[1:]
                         func = getattr(Commands, method)
-                        func(self)
+                        func(self, args)
 
 
-    def help(self):
+    def help(self, args):
         payload = {}
         data = ""
         for method in dir(self):
@@ -38,20 +42,29 @@ class Commands:
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
-    def ping(self):
+    def ping(self, args):
         payload = {}
         payload["content"] = "pong"
 
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
-    def update(self):
+    def update(self, args):
         exit()
 
-    def mule(self):
-        pass
+    def mule(self, args):
+        msg = "시발년아 "
+        for text in args:
+            msg += text + " "
+        msg += "그게 뭔데 씹덕새끼야"
 
-    def test(self):
+        payload = {}
+        payload["content"] = msg
+
+        http = RestAPI(self.__TOKEN)
+        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
+
+    def test(self, args):
         pass
 
 class ResponseHandler:
