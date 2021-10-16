@@ -21,6 +21,9 @@ class Commands:
                     func = getattr(Commands, method)
                     func(self)
 
+        if self.__msg[0] == self.__command_prefix:
+            print("it is commands!")
+
     def help(self):
         payload = {}
         data = ""
@@ -45,6 +48,9 @@ class Commands:
         exit()
 
     def mule(self):
+        pass
+
+    def test(self):
         pass
 
 class ResponseHandler:
