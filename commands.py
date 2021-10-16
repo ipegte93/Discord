@@ -41,7 +41,7 @@ class Commands:
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
-    def shutdown(self):
+    def update(self):
         exit()
 
     def mule(self):
