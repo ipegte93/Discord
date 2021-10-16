@@ -2,6 +2,8 @@ import asyncio
 from core import RestAPI
 from core import Route
 
+from mule import mule_search
+
 class Message:
     def __init__(self, author, content, message_id, channel_id):
         self.author = author
@@ -28,19 +30,19 @@ class Commands:
                         func = getattr(Commands, method)
                         func(self, args)
 
-
     def help(self, args):
-        payload = {}
-        data = ""
-        for method in dir(self):
-            if method.startswith('_') is False:
-                data += method + ", "
+        if args == None:
+            payload = {}
+            data = ""
+            for method in dir(self):
+                if method.startswith('_') is False:
+                    data += method + ", "
 
-        data = data[:-2]
-        payload["content"] = data
+            data = data[:-2]
+            payload["content"] = data
 
-        http = RestAPI(self.__TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
+            http = RestAPI(self.__TOKEN)
+            asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
     def ping(self, args):
         payload = {}
@@ -52,7 +54,7 @@ class Commands:
     def update(self, args):
         exit()
 
-    def mule(self, args):
+    def test(self, args):
         msg = "시발년아 "
         for text in args:
             msg += text + " "
@@ -64,8 +66,13 @@ class Commands:
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
-    def test(self, args):
-        pass
+    def mule(self, args):
+        payload = {}
+        content = mule_search(args[0])
+        payload["content"] = content
+
+        http = RestAPI(self.__TOKEN)
+        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
 class ResponseHandler:
     def __init__(self, response: dict, BOT_TOKEN: str):
