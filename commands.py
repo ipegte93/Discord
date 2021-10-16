@@ -21,7 +21,7 @@ class Commands:
                     func = getattr(Commands, method)
                     func(self)
 
-        if self.__msg[0] == self.__command_prefix:
+        if self.__msg.content[0] == self.__command_prefix:
             print("it is commands!")
 
     def help(self):
