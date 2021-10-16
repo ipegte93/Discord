@@ -15,14 +15,15 @@ class Commands:
         self.__command_prefix = '!'
         self.__msg = msg
 
-        for method in dir(self): #message를 스페이스로 slice() 해서 args로 넘기는 기능 만들고 있음
-            if method.startswith('_') is False:
-                if self.__msg.content == self.__command_prefix + method:
-                    func = getattr(Commands, method)
-                    func(self)
-
         if self.__msg.content[0] == self.__command_prefix:
-            print("it is commands!")
+            content = self.__msg.content
+            content = content[1:].split(" ")
+            for method in dir(self):
+                if method.startswith("_") is False:
+                    if content[0] == method:
+                        func = getattr(Commands, method)
+                        func(self)
+
 
     def help(self):
         payload = {}
