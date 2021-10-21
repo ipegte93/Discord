@@ -15,6 +15,6 @@ class RestAPI:
         payload = None
         if "payload" in kwargs:
             payload = kwargs["payload"]
-
-        async with aiohttp.request(route.method, route.url, headers=self.headers, data=payload) as response:
+        payload = json.dumps(payload)
+        async with aiohttp.request(route.method, route.url, headers=self.headers, json=payload) as response:
             print(await response.text())
