@@ -17,8 +17,11 @@ class Commands:
         self.__command_prefix = '!'
         self.__msg = msg
 
-        if self.__msg.content[0] == self.__command_prefix:
-            content = self.__msg.content
+        content = self.__msg.content
+        if len(content) == 0:
+            return
+
+        if content[0] == self.__command_prefix:
             content = content[1:].split(" ")
             for method in dir(self):
                 if method.startswith("_") is False:
