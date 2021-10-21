@@ -1,8 +1,8 @@
-def mule_search(name, min=1, max=None, period=None):
+def mule_search(name, max, period):
     path = "https://www.mule.co.kr/bbs/market/sell"
     query = "?qf=title"
     query += "&qs=" + name
-    query += "&start_price=" + str(min)
+    query += "&start_price=" + "1"
 
     if max==None:
         max = ""
@@ -12,10 +12,10 @@ def mule_search(name, min=1, max=None, period=None):
     return_data.append(-1)
 
     if period != None:
-        if period != 6 or period != 12:
+        if int(period) != 6 or int(period) != 12:
             return_data.append(period)
 
-        if period<2013 or period>2021:
+        elif int(period)<2013 or int(period)>2021:
             return_data.append(period)
 
     else:
@@ -23,4 +23,5 @@ def mule_search(name, min=1, max=None, period=None):
     query += "&period=" + str(period)
 
     return_data.append(path+query)
-    return return_data[1]
+    print(return_data)
+    return return_data[2]
