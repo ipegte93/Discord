@@ -71,8 +71,14 @@ class Commands:
 
     def mule(self, args):
         payload = {}
-        content = mule_search(args[0])
-        payload["content"] = content
+        if args == None:
+            payload["content"] = "씨발년아 제대로 적으삼"
+        else:
+            name = args[0]
+            max = args[1]
+            peroid = args[2]
+            content = mule_search(name, max, peroid)
+            payload["content"] = content
 
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
