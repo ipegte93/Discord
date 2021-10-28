@@ -72,7 +72,7 @@ class Commands:
     def mule(self, args):
         payload = {}
         if args == None:
-            payload["content"] = "씨발년아 제대로 적으삼"
+            payload["content"] = "오류: 씨발년아 제대로 적으삼"
         else:
             name = args[0]
             max = args[1]
