@@ -72,7 +72,8 @@ class Commands:
     def mule(self, args):
         payload = {}
         args.append("")
-        if args == None or args[2] == "" or args[1] == "" or args[0] == "":
+        args.append("")
+        if args == None or args[2] == "" or args[1] == "":
             payload["content"] = "오류: 씨발년아 제대로 적으삼"
         else:
             content = mule_search(args[0], args[1], args[2])
