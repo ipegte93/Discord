@@ -71,13 +71,11 @@ class Commands:
 
     def mule(self, args):
         payload = {}
-        if args == None:
+        args.append("")
+        if args == None or args[2] == "" or args[1] == "" or args[0] == "":
             payload["content"] = "오류: 씨발년아 제대로 적으삼"
         else:
-            name = args[0]
-            max = args[1]
-            peroid = args[2]
-            content = mule_search(name, max, peroid)
+            content = mule_search(args[0], args[1], args[2])
             payload["content"] = content
 
         http = RestAPI(self.__TOKEN)
