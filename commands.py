@@ -70,7 +70,7 @@ class Commands:
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
-    def test2(self):
+    def test2(self, args):
         payload = {}
 
         temp = Component()
@@ -85,9 +85,10 @@ class Commands:
         temp2 = Components()
         temp2.add(temp.dump())
 
+        payload["content"] = "test2"
         payload["components"] = temp2.dump()
 
-        http = RestAPI(self.__token)
+        http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
     def mule(self, args):

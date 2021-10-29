@@ -1,5 +1,5 @@
 # TOKEN = "<YOUR BOT TOKEN>"
-TOKEN = None
+TOKEN = "ODk4ODI3NDU1MTg2NDc3MDU3.YWp4TA._IJyaStYPT8yy9U0rcFyw5RIVzs"
 
 if TOKEN == None:
     import sys
