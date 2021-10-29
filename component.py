@@ -9,10 +9,12 @@ class Component:
         self.component.update(kwargs)
 
 
-class Componets:
+class Components:
     def __init__(self):
         self.components = []
     
     def dump(self):
         return self.components
         
+    def add(self, dict: dict):
+        self.components.append(dict)      
