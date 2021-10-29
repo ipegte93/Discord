@@ -1,20 +1,19 @@
-class Component:
-    def __init__(self):
-        self.component = {}
-    
-    def dump(self):
-        return self.component
-    
-    def add(self, **kwargs):
-        self.component.update(kwargs)
-
-
 class Components:
     def __init__(self):
         self.components = []
-    
-    def dump(self):
+
+    @staticmethod
+    def make( **kwargs):
+        return kwargs
+
+    def addActionRow(self, *args):
+        data = []
+        for temp in args:
+            data.append(temp)
+
+        self.components.append(
+            self.make(type=1, components=data)
+        )
+
+    def get(self):
         return self.components
-        
-    def add(self, dict: dict):
-        self.components.append(dict)      

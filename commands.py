@@ -60,33 +60,23 @@ class Commands:
 
     def test(self, args):
         msg = "시발년아 "
-        for text in args:
-            msg += text + " "
+        if args is not None:
+            for text in args:
+                msg += text + " "
         msg += "그게 뭔데 씹덕새끼야"
 
         payload = {}
         payload["content"] = msg
 
-        http = RestAPI(self.__TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
+        components = Components()
+        components.addActionRow(
+            Components.make(type=2, label="Click!", style=1, custom_id="click"),
+            Components.make(type=2, label="Sex!", style=1, custom_id="sex!"),
+        )
 
-    def test2(self, args):
-        payload = {}
+        payload["components"] = components.get()
 
-        temp = Component()
-        temp.add(type=2, label="Click!", style=1, custom_id="click_one")
-
-        temp2 = Components()
-        temp2.add(temp.dump())
-
-        temp = Component()
-        temp.add(type=1, components=temp2.dump())
-
-        temp2 = Components()
-        temp2.add(temp.dump())
-
-        payload["content"] = "test2"
-        payload["components"] = temp2.dump()
+        print(payload)
 
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
