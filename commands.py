@@ -3,6 +3,7 @@ from core import RestAPI
 from core import Route
 
 from mule import mule_search
+from component import *
 
 class Message:
     def __init__(self, author, content, message_id, channel_id):
@@ -25,7 +26,7 @@ class Commands:
             content = content[1:].split(" ")
             for method in dir(self):
                 if method.startswith("_") is False:
-                    if content[0] == method: #디스코드에서 사진만 올렸을 때 이부분에서 튕김
+                    if content[0] == method:
                         if len(content) == 1:
                             args = None
                         else:
@@ -69,6 +70,26 @@ class Commands:
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
 
+    def test2(self):
+        payload = {}
+
+        temp = Component()
+        temp.add(type=2, label="Click!", style=1, custom_id="click_one")
+
+        temp2 = Components()
+        temp2.add(temp.dump())
+
+        temp = Component()
+        temp.add(type=1, components=temp2.dump())
+
+        temp2 = Components()
+        temp2.add(temp.dump())
+
+        payload["components"] = temp2.dump()
+        
+        http = ResrAPI(self.__token)
+        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
+        
     def mule(self, args):
         payload = {}
         args.append("")
