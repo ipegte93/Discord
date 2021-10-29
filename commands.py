@@ -86,10 +86,10 @@ class Commands:
         temp2.add(temp.dump())
 
         payload["components"] = temp2.dump()
-        
-        http = ResrAPI(self.__token)
+
+        http = RestAPI(self.__token)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
-        
+
     def mule(self, args):
         payload = {}
         args.append("")
