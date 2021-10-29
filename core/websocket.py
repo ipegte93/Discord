@@ -2,9 +2,8 @@ import asyncio
 import websockets
 import json
 import sys
-import aiohttp
 
-from commands import ResponseHandler
+from .response_hander import ResponseHandler
 
 class DiscordWebsocket:
     def __init__(self, BOT_TOKEN: str):
