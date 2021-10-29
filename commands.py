@@ -72,6 +72,20 @@ class Commands:
 
     def test2(self):
         payload = {}
+
+        temp = Component()
+        temp.add(type=2, label="Click!", style=1, custom_id="click_one")
+
+        temp2 = Components()
+        temp2.add(temp.dump())
+
+        temp = Component()
+        temp.add(type=1, components=temp2.dump())
+
+        temp2 = Components()
+        temp2.add(temp.dump())
+
+        payload["components"] = temp2.dump()
         
         http = ResrAPI(self.__token)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
