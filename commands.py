@@ -1,9 +1,15 @@
 import asyncio
 from core import RestAPI
 from core import Route
-from core.message import Message
 
 from mule import mule_search
+
+class Message:
+    def __init__(self, author, content, message_id, channel_id):
+        self.author = author
+        self.content = content
+        self.message_id = message_id
+        self.chaneel_id = channel_id
 
 class Commands:
     def __init__(self, msg: Message, BOT_TOKEN: str):
@@ -92,7 +98,7 @@ class Components:
         self.components = []
 
     @staticmethod
-    def make( **kwargs):
+    def make(**kwargs):
         return kwargs
 
     def addActionRow(self, *args):
@@ -106,3 +112,31 @@ class Components:
 
     def get(self):
         return self.components
+
+#https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
+class ComponentCallback:
+    def __init__(self, BOT_TOKEN, data, id, token):
+        self.BOT_TOKEN = BOT_TOKEN
+        self.interaction_id = id
+        self.interaction_token = token
+
+    def type4(self): #DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE
+        payload = {}
+        payload["type"] = 4
+        payload["data"] = {
+            "content": "굳"
+        }
+
+        http = RestAPI(self.BOT_TOKEN)
+        asyncio.create_task(http.request(Route("POST", "/interactions/{}/{}/callback".format(self.interaction_id, self.interaction_token)),payload=payload))
+
+    def type6(self): #DEFERRED_UPDATE_MESSAGE
+        pass
+
+    def type7(self): #UPDATE_MESSAGE
+        pass
+
+    def type8(self): #APPLICATION_COMMAND_AUTOCOMPLETE_RESULT
+        pass
+
+
