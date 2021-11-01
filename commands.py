@@ -11,6 +11,26 @@ class Message:
         self.message_id = message_id
         self.chaneel_id = channel_id
 
+class Components:
+    def __init__(self):
+        self.components = []
+
+    @staticmethod
+    def make(**kwargs):
+        return kwargs
+
+    def addActionRow(self, *args):
+        data = []
+        for temp in args:
+            data.append(temp)
+
+        self.components.append(
+            self.make(type=1, components=data)
+        )
+
+    def get(self):
+        return self.components
+
 class Commands:
     def __init__(self, msg: Message, BOT_TOKEN: str):
         self.__TOKEN = BOT_TOKEN
@@ -75,6 +95,7 @@ class Commands:
         components.addActionRow(
             Components.make(type=2, label="Style1", style=1, custom_id="s1"),
             Components.make(type=2, label="Style2", style=2, custom_id="s2"),
+        )
 
         payload["components"] = components.get()
 
@@ -95,26 +116,6 @@ class Commands:
 
         http = RestAPI(self.__TOKEN)
         asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
-
-class Components:
-    def __init__(self):
-        self.components = []
-
-    @staticmethod
-    def make(**kwargs):
-        return kwargs
-
-    def addActionRow(self, *args):
-        data = []
-        for temp in args:
-            data.append(temp)
-
-        self.components.append(
-            self.make(type=1, components=data)
-        )
-
-    def get(self):
-        return self.components
 
 #https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
 class ComponentCallback:
