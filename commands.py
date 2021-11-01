@@ -73,8 +73,8 @@ class Commands:
             Components.make(type=2, label="Sex!", style=1, custom_id="sex!"),
         )
         components.addActionRow(
-            Components.make(type2, label="Style1", style=1, custom_id="s1"),
-            Components.make(type2, label="Style2", style=2, custom_id="s2"),
+            Components.make(type=2, label="Style1", style=1, custom_id="s1"),
+            Components.make(type=2, label="Style2", style=2, custom_id="s2"),
 
         payload["components"] = components.get()
 
