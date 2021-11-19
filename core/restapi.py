@@ -1,4 +1,5 @@
 import aiohttp
+import asyncio
 import json
 
 class Route:
@@ -18,3 +19,7 @@ class RestAPI:
 
         async with aiohttp.request(route.method, route.url, headers=self.headers, json=payload) as response:
             print(await response.text())
+
+    def sendInChannel(self, channel_id: int, payload: str):
+        route = Route("POST", "/channels/{}/messages".format(channel_id))
+        asyncio.create_task(self.request(route, payload=payload))

@@ -33,9 +33,9 @@ class Components:
 
 class Commands:
     def __init__(self, msg: Message, BOT_TOKEN: str):
-        self.__TOKEN = BOT_TOKEN
         self.__command_prefix = '!'
         self.__msg = msg
+        self._api = RestAPI(BOT_TOKEN)
 
         content = self.__msg.content
         if len(content) == 0:
@@ -64,15 +64,13 @@ class Commands:
             data = data[:-2]
             payload["content"] = data
 
-            http = RestAPI(self.__TOKEN)
-            asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
+            self._api.sendInChannel(self.__msg.chaneel_id, payload)
 
     def ping(self, args):
         payload = {}
         payload["content"] = "pong"
 
-        http = RestAPI(self.__TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
+        self._api.sendInChannel(self.__msg.chaneel_id, payload)
 
     def update(self, args):
         exit()
@@ -103,8 +101,7 @@ class Commands:
 
         print(payload)
 
-        http = RestAPI(self.__TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
+        self._api.sendInChannel(self.__msg.chaneel_id, payload)
 
     def mule(self, args):
         payload = {}
@@ -116,8 +113,7 @@ class Commands:
             content = mule_search(args[0], args[1], args[2])
             payload["content"] = content
 
-        http = RestAPI(self.__TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/channels/{}/messages".format(self.__msg.chaneel_id)),payload=payload))
+        self._api.sendInChannel(self.__msg.chaneel_id, payload)
 
 #https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
 class ComponentCallback:
