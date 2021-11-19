@@ -1,6 +1,5 @@
 import aiohttp
 import asyncio
-import json
 
 class Route:
     def __init__(self, method: str, path: str):

@@ -1,5 +1,8 @@
-from commands import Commands, ComponentCallback
+import asyncio
+
+from commands import Commands
 from utils.message import Message
+from core.restapi import *
 
 class ResponseHandler:
     def __init__(self, response: dict, BOT_TOKEN: str):
@@ -35,3 +38,29 @@ class ResponseHandler:
 
         msg = Message(author, content, message_id, channel_id)
         Commands(msg, self.TOKEN)
+
+#https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
+class ComponentCallback:
+    def __init__(self, BOT_TOKEN, data, id, token):
+        self.BOT_TOKEN = BOT_TOKEN
+        self.interaction_id = id
+        self.interaction_token = token
+
+    def type4(self): #DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE
+        payload = {}
+        payload["type"] = 4
+        payload["data"] = {
+            "content": "굳"
+        }
+
+        http = RestAPI(self.BOT_TOKEN)
+        asyncio.create_task(http.request(Route("POST", "/interactions/{}/{}/callback".format(self.interaction_id, self.interaction_token)),payload=payload))
+
+    def type6(self): #DEFERRED_UPDATE_MESSAGE
+        pass
+
+    def type7(self): #UPDATE_MESSAGE
+        pass
+
+    def type8(self): #APPLICATION_COMMAND_AUTOCOMPLETE_RESULT
+        pass

@@ -11,7 +11,7 @@ if TOKEN == None:
         exit()
 
 import asyncio
-from core import DiscordWebsocket
+from core.websocket import *
 
 async def main():
     ws = DiscordWebsocket(TOKEN)
