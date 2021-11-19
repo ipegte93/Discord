@@ -9,10 +9,10 @@ from utils.get_def_name_list import getDefNameList
 class Commands:
     def __init__(self, msg: Message, BOT_TOKEN: str):
         self._COMMAND_PREFIX = '!'
-        self.__msg = msg
+        self._msg = msg
         self._api = RestAPI(BOT_TOKEN)
 
-        content = self.__msg.content
+        content = self._msg.content
         if len(content) == 0:
             return
             
@@ -30,24 +30,22 @@ class Commands:
                 except:
                     func(self)
 
-    def help(self, args):
-        if args == None:
-            payload = {}
-            data = ""
-            for method in dir(self):
-                if method.startswith('_') is False:
-                    data += method + ", "
+    def help(self):
+        payload = {}
+        content = ""
 
-            data = data[:-2]
-            payload["content"] = data
+        for element in getDefNameList(self):
+            content += element + ", "
+        content = content[:-2]
+        payload["content"] = content
 
-            self._api.sendInChannel(self.__msg.chaneel_id, payload)
+        self._api.sendInChannel(self._msg.channel_id, payload)
 
     def ping(self):
         payload = {}
         payload["content"] = "pong"
 
-        self._api.sendInChannel(self.__msg.chaneel_id, payload)
+        self._api.sendInChannel(self._msg.channel_id, payload)
 
     def update(self):
         exit()
@@ -78,7 +76,7 @@ class Commands:
 
         print(payload)
 
-        self._api.sendInChannel(self.__msg.chaneel_id, payload)
+        self._api.sendInChannel(self._msg.channel_id, payload)
 
     def mule(self, args):
         payload = {}
@@ -90,4 +88,4 @@ class Commands:
             content = mule_search(args[0], args[1], args[2])
             payload["content"] = content
 
-        self._api.sendInChannel(self.__msg.chaneel_id, payload)
+        self._api.sendInChannel(self._msg.channel_id, payload)
