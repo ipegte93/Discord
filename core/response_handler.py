@@ -1,4 +1,5 @@
-from commands import Commands, Message, ComponentCallback
+from commands import Commands, ComponentCallback
+from utils.message import Message
 
 class ResponseHandler:
     def __init__(self, response: dict, BOT_TOKEN: str):

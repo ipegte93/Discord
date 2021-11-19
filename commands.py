@@ -5,13 +5,7 @@ from core import Route
 from mule import mule_search
 
 from utils.components import Components
-
-class Message:
-    def __init__(self, author, content, message_id, channel_id):
-        self.author = author
-        self.content = content
-        self.message_id = message_id
-        self.chaneel_id = channel_id
+from utils.message import Message
 
 class Commands:
     def __init__(self, msg: Message, BOT_TOKEN: str):
