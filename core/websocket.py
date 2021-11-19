@@ -3,7 +3,7 @@ import websockets
 import json
 import sys
 
-from .response_hander import ResponseHandler
+from .response_handler import ResponseHandler
 
 class DiscordWebsocket:
     def __init__(self, BOT_TOKEN: str):
