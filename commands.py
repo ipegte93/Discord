@@ -22,7 +22,7 @@ class Commands:
             
         if content[0] == self._COMMAND_PREFIX:
             content = content[1:].split(" ")
-            if content[0] in getDefNameList():
+            if content[0] in getDefNameList(self):
                 if len(content) == 1:
                     args = None
                 else:
