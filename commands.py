@@ -4,32 +4,14 @@ from core import Route
 
 from mule import mule_search
 
+from utils.components import Components
+
 class Message:
     def __init__(self, author, content, message_id, channel_id):
         self.author = author
         self.content = content
         self.message_id = message_id
         self.chaneel_id = channel_id
-
-class Components:
-    def __init__(self):
-        self.components = []
-
-    @staticmethod
-    def make(**kwargs):
-        return kwargs
-
-    def addActionRow(self, *args):
-        data = []
-        for temp in args:
-            data.append(temp)
-
-        self.components.append(
-            self.make(type=1, components=data)
-        )
-
-    def get(self):
-        return self.components
 
 class Commands:
     def __init__(self, msg: Message, BOT_TOKEN: str):
