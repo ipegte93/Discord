@@ -27,8 +27,12 @@ class Commands:
                     args = None
                 else:
                     args = content[1:]
+   
                 func = getattr(Commands, content[0])
-                func(self, args)
+                try:
+                    func(self, args)
+                except:
+                    func(self)
 
     def help(self, args):
         if args == None:
@@ -43,13 +47,13 @@ class Commands:
 
             self._api.sendInChannel(self.__msg.chaneel_id, payload)
 
-    def ping(self, args):
+    def ping(self):
         payload = {}
         payload["content"] = "pong"
 
         self._api.sendInChannel(self.__msg.chaneel_id, payload)
 
-    def update(self, args):
+    def update(self):
         exit()
 
     def test(self, args):
