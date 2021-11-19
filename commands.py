@@ -1,4 +1,5 @@
 import asyncio
+
 from core import RestAPI
 from core import Route
 
@@ -6,28 +7,28 @@ from mule import mule_search
 
 from utils.components import Components
 from utils.message import Message
+from utils.get_def_name_list import getDefNameList
 
 class Commands:
     def __init__(self, msg: Message, BOT_TOKEN: str):
         self.__command_prefix = '!'
+        self._COMMAND_PREFIX = '!'
         self.__msg = msg
         self._api = RestAPI(BOT_TOKEN)
 
         content = self.__msg.content
         if len(content) == 0:
             return
-
-        if content[0] == self.__command_prefix:
+            
+        if content[0] == self._COMMAND_PREFIX:
             content = content[1:].split(" ")
-            for method in dir(self):
-                if method.startswith("_") is False:
-                    if content[0] == method:
-                        if len(content) == 1:
-                            args = None
-                        else:
-                            args = content[1:]
-                        func = getattr(Commands, method)
-                        func(self, args)
+            if content[0] in getDefNameList():
+                if len(content) == 1:
+                    args = None
+                else:
+                    args = content[1:]
+                func = getattr(Commands, content[0])
+                func(self, args)
 
     def help(self, args):
         if args == None:
