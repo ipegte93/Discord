@@ -1,8 +1,7 @@
 import asyncio
 
 from commands import *
-from utils.message import Message
-from utils.interaction import InteractionDict
+from utils.struct import *
 from core.restapi import *
 
 class ResponseHandler:
@@ -21,9 +20,9 @@ class ResponseHandler:
                 data = response['d']["data"]
                 interaction_id = response['d']["id"]
                 interaction_token = response['d']["token"]
-                interactionDict = InteractionDict(data["custom_id"], data["component_type"], interaction_id, interaction_token)
+                interactionStruct = InteractionStruct(data["custom_id"], data["component_type"], interaction_id, interaction_token)
 
-                callback = InteractionCallback(self.BOT_TOKEN, interactionDict)
+                callback = InteractionCallback(self.BOT_TOKEN, interactionStruct)
                 callback.type4()
 
         else:
@@ -39,21 +38,21 @@ class ResponseHandler:
         message_id = response['d']["id"]
         channel_id = response['d']["channel_id"]
 
-        msg = Message(author, content, message_id, channel_id)
-        Commands(msg, self.BOT_TOKEN)
+        messageStruct = MessageStruct(author, content, message_id, channel_id)
+        Commands(messageStruct, self.BOT_TOKEN)
 
 #https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
 class InteractionCallback:
-    def __init__(self, BOT_TOKEN, interactionDict: InteractionDict):
+    def __init__(self, BOT_TOKEN, interactionStruct: InteractionStruct):
         self.BOT_TOKEN = BOT_TOKEN
-        self.interactionDict = interactionDict
+        self.interactionStruct = interactionStruct
 
     def callback(self):
-        command_response = InteractionResponse(self.interactionDict)
+        command_response = InteractionResponse(self.interactionStruct)
         payload = command_response.get_payload()
 
         http = RestAPI(self.BOT_TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/interactions/{}/{}/callback".format(self.interactionDict.interaction_id, self.interactionDict.interaction_token)),payload=payload))
+        asyncio.create_task(http.request(Route("POST", "/interactions/{}/{}/callback".format(self.interactionStruct.interaction_id, self.interactionStruct.interaction_token)),payload=payload))
 
     def type4(self): #DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE
         payload = {}
@@ -63,7 +62,7 @@ class InteractionCallback:
         }
 
         http = RestAPI(self.BOT_TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/interactions/{}/{}/callback".format(self.interactionDict.interaction_id, self.interactionDict.interaction_token)),payload=payload))
+        asyncio.create_task(http.request(Route("POST", "/interactions/{}/{}/callback".format(self.interactionStruct.interaction_id, self.interactionStruct.interaction_token)),payload=payload))
 
     def type6(self): #DEFERRED_UPDATE_MESSAGE
         pass

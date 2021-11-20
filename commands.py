@@ -3,17 +3,16 @@ from core.restapi import *
 from mule import mule_search
 
 from utils.components import Components
-from utils.message import Message
+from utils.struct import *
 from utils.get_def_name_list import getDefNameList
-from utils.interaction import InteractionDict
 
 class Commands:
-    def __init__(self, msg: Message, BOT_TOKEN: str):
+    def __init__(self, messageStruct: MessageStruct, BOT_TOKEN: str):
         self._COMMAND_PREFIX = '!'
-        self._msg = msg
+        self._messageStruct = messageStruct
         self._api = RestAPI(BOT_TOKEN)
 
-        content = self._msg.content
+        content = self._messageStruct.content
         if len(content) == 0:
             return
             
@@ -40,13 +39,13 @@ class Commands:
         content = content[:-2]
         payload["content"] = content
 
-        self._api.sendInChannel(self._msg.channel_id, payload)
+        self._api.sendInChannel(self._messageStruct.channel_id, payload)
 
     def ping(self):
         payload = {}
         payload["content"] = "pong"
 
-        self._api.sendInChannel(self._msg.channel_id, payload)
+        self._api.sendInChannel(self._messageStruct.channel_id, payload)
 
     def update(self):
         exit()
@@ -77,7 +76,7 @@ class Commands:
 
         print(payload)
 
-        self._api.sendInChannel(self._msg.channel_id, payload)
+        self._api.sendInChannel(self._messageStruct.channel_id, payload)
 
     def mule(self, args):
         payload = {}
@@ -89,12 +88,12 @@ class Commands:
             content = mule_search(args[0], args[1], args[2])
             payload["content"] = content
 
-        self._api.sendInChannel(self._msg.channel_id, payload)
+        self._api.sendInChannel(self._messageStruct.channel_id, payload)
 
 class InteractionResponse:
-    def __init__(self, interactionDict: InteractionDict):
+    def __init__(self, interactionStruct: InteractionStruct):
         self.payload = {}
-        self.interactionDict = interactionDict
+        self.interactionStruct = interactionStruct
 
     def _getPayload(self):
         return self.payload
