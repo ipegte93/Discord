@@ -11,7 +11,11 @@ class Commands:
         self._COMMAND_PREFIX = '!'
         self._messageStruct = messageStruct
         self._api = RestAPI(BOT_TOKEN)
-        self._inputMode = False
+        self._inputMode = 0
+
+        if self._inputMode > 0:
+            self._inputMode -= 1
+            self._input()
 
         content = self._messageStruct.content
         if len(content) == 0:
@@ -31,7 +35,7 @@ class Commands:
                     func(self, args)
 
     def _input(self):
-        pass
+        print(self._messageStruct.content)        
 
     def help(self):
         payload = {}
@@ -102,16 +106,13 @@ class Commands:
         payload = self.mule.template()
         self._api.sendInChannel(self._messageStruct.channel_id, payload)
 
-    def _new_muleInput(self):
-        pass
-
 class InteractionResponse:
     def __init__(self, interactionStruct: InteractionStruct):
         self.payload = {}
         self.interactionStruct = interactionStruct
 
         if interactionStruct.custom_id in getDefNameList(self):
-            func = getattr(InteractionResponse, interactionStruct.custom_id)
+            func = getattr(self, interactionStruct.custom_id)
             func(self)
         else:
             self.payload["type"] = 4

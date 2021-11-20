@@ -17,7 +17,8 @@ class RestAPI:
             payload = kwargs["payload"]
 
         async with aiohttp.request(route.method, route.url, headers=self.headers, json=payload) as response:
-            print(await response.text())
+            # print(await response.text())
+            pass
 
     def sendInChannel(self, channel_id: int, payload: str):
         route = Route("POST", "/channels/{}/messages".format(channel_id))

@@ -11,7 +11,9 @@ class ResponseHandler:
 
     def __handler(self, response: dict):
         res = response['t']
-        if res == "MESSAGE_CREATE":
+        if res == "READY":
+            print("BOT READY")
+        elif res == "MESSAGE_CREATE":
             self.__parser(response)
         elif res == "GUILD_CREATE":
             pass
@@ -37,6 +39,8 @@ class ResponseHandler:
         content = response['d']["content"]
         message_id = response['d']["id"]
         channel_id = response['d']["channel_id"]
+
+        print("<{}> {}".format(author["username"], content))
 
         messageStruct = MessageStruct(author, content, message_id, channel_id)
         Commands(messageStruct, self.BOT_TOKEN)

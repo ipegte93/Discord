@@ -42,9 +42,8 @@ class DiscordWebsocket:
 
     async def __consumer(self, response: dict):
         op = response["op"]
-
         if op == 0: # Dispatch
-            self.__op0(response)
+            ResponseHandler(response, self.TOKEN)
         elif op == 7: # Reconnect
             print(response)
         elif op == 9: # Invalid Session
@@ -56,13 +55,7 @@ class DiscordWebsocket:
         elif op == 11: #Heartbeat ACK
             asyncio.create_task(self.__heartbeat())
         else:
-            print(response)
-
-    def __op0(self, response: dict):
-        if response['t'] == "READY":
-            print("Bot ready")
-        else:
-            ResponseHandler(response, self.TOKEN)
+            print(response)        
 
     async def __heartbeat(self):
         await asyncio.sleep(self.heartbeat_interval)
