@@ -22,8 +22,8 @@ class ResponseHandler:
                 interaction_token = response['d']["token"]
                 interactionStruct = InteractionStruct(data["custom_id"], data["component_type"], interaction_id, interaction_token)
 
-                callback = InteractionCallback(self.BOT_TOKEN, interactionStruct)
-                callback.type4()
+                intracationCallback = InteractionCallback(self.BOT_TOKEN, interactionStruct)
+                intracationCallback.callback()
 
         else:
             print(response)
@@ -49,26 +49,7 @@ class InteractionCallback:
 
     def callback(self):
         command_response = InteractionResponse(self.interactionStruct)
-        payload = command_response.get_payload()
+        payload = command_response._getPayload()
 
         http = RestAPI(self.BOT_TOKEN)
         asyncio.create_task(http.request(Route("POST", "/interactions/{}/{}/callback".format(self.interactionStruct.interaction_id, self.interactionStruct.interaction_token)),payload=payload))
-
-    def type4(self): #DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE
-        payload = {}
-        payload["type"] = 4
-        payload["data"] = {
-            "content": "굳"
-        }
-
-        http = RestAPI(self.BOT_TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/interactions/{}/{}/callback".format(self.interactionStruct.interaction_id, self.interactionStruct.interaction_token)),payload=payload))
-
-    def type6(self): #DEFERRED_UPDATE_MESSAGE
-        pass
-
-    def type7(self): #UPDATE_MESSAGE
-        pass
-
-    def type8(self): #APPLICATION_COMMAND_AUTOCOMPLETE_RESULT
-        pass

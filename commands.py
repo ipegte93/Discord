@@ -95,5 +95,16 @@ class InteractionResponse:
         self.payload = {}
         self.interactionStruct = interactionStruct
 
+        if interactionStruct.custom_id in getDefNameList(self):
+            func = getattr(InteractionResponse, interactionStruct.custom_id)
+            func(self)
+        else:
+            self.payload["type"] = 4
+            self.payload["data"] = {
+                "content": "오류: 씨발 이거 기능 없음 ->" +interactionStruct.custom_id 
+            }
+
     def _getPayload(self):
         return self.payload
+
+    
