@@ -1,6 +1,6 @@
 from core.restapi import *
 
-from mule import mule_search
+from mule import *
 
 from utils.components import Components
 from utils.struct import *
@@ -11,6 +11,7 @@ class Commands:
         self._COMMAND_PREFIX = '!'
         self._messageStruct = messageStruct
         self._api = RestAPI(BOT_TOKEN)
+        self._inputMode = False
 
         content = self._messageStruct.content
         if len(content) == 0:
@@ -19,16 +20,18 @@ class Commands:
         if content[0] == self._COMMAND_PREFIX:
             content = content[1:].split(" ")
             if content[0] in getDefNameList(self):
+                func = getattr(Commands, content[0])
                 if len(content) == 1:
                     args = None
                 else:
                     args = content[1:]
-   
-                func = getattr(Commands, content[0])
                 try:
-                    func(self, args)
-                except:
                     func(self)
+                except:
+                    func(self, args)
+
+    def _input(self):
+        pass
 
     def help(self):
         payload = {}
@@ -89,6 +92,18 @@ class Commands:
             payload["content"] = content
 
         self._api.sendInChannel(self._messageStruct.channel_id, payload)
+
+    def new_mule(self, args):
+        if args is None:
+            self.mule = Mule()
+        else:
+            self.mule = Mule(search=args[0])
+
+        payload = self.mule.template()
+        self._api.sendInChannel(self._messageStruct.channel_id, payload)
+
+    def _new_muleInput(self):
+        pass
 
 class InteractionResponse:
     def __init__(self, interactionStruct: InteractionStruct):

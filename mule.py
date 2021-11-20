@@ -29,19 +29,38 @@ def mule_search(name, max, period):
     print(return_data)
     return return_data[2]
 
-def muleTemplate(minPrice: int, maxPrice: int, period: int, name: str):
-    content = name + "\n"
-    content += "최소 가격: " + str(minPrice) + "원\n"
-    content += "최대 가격: " + str(maxPrice) + "원\n"
-    content += "기간: " + str(period) + "\n"
+class Mule:
+    def __init__(self, **kwargs):
+        self.search: str = ""
+        self.minPrice = 1
+        self.maxPrice: int = None
+        self.period: int = None
 
-    components = Components()
-    components.addActionRow(
-        Components.make(type=2, label="최소 가격 설정", style=1, custom_id="mule_min_price"),
-        Components.make(type=2, label="최대 가격 설정", style=1, custom_id="mule_max_price")
-    )
+        if "search" in kwargs:
+            self.search = kwargs["search"]
+        if "minPrice" in kwargs:
+            self.minPrice = kwargs["minPrice"]
+        if "maxPrice" in kwargs:
+            self.maxPrice = kwargs["maxPrice"]
+        if "period" in kwargs:
+            self.period = kwargs["period"]
 
-    payload = {}
-    payload["content"] = content
-    payload["components"] = components.get()
-    return payload
+    def template(self):
+        content = self.search + "\n"
+        content += "최소 가격: " + str(self.minPrice) + "원\n"
+        content += "최대 가격: " + str(self.maxPrice) + "원\n"
+        content += "기간: " + str(self.period) + "\n"
+
+        components = Components()
+        components.addActionRow(
+            Components.make(type=2, label="최소 가격 설정", style=1, custom_id="mule_min_price"),
+            Components.make(type=2, label="최대 가격 설정", style=1, custom_id="mule_max_price")
+        )
+        components.addActionRow(
+            Components.make(type=2, label="검색", style=1, custom_id="mule_search")
+        )
+
+        payload = {}
+        payload["content"] = content
+        payload["components"] = components.get()
+        return payload
