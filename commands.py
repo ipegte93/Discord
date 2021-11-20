@@ -101,7 +101,7 @@ class InteractionResponse:
         else:
             self.payload["type"] = 4
             self.payload["data"] = {
-                "content": "오류: 씨발 이거 기능 없음 -> " + interactionStruct.custom_id 
+                "content": "오류: 씨발 이거 기능 없음 -> custom_id: " + interactionStruct.custom_id 
             }
 
     def _getPayload(self):
