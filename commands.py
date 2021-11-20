@@ -5,6 +5,7 @@ from mule import mule_search
 from utils.components import Components
 from utils.message import Message
 from utils.get_def_name_list import getDefNameList
+from utils.interaction import InteractionDict
 
 class Commands:
     def __init__(self, msg: Message, BOT_TOKEN: str):
@@ -89,3 +90,11 @@ class Commands:
             payload["content"] = content
 
         self._api.sendInChannel(self._msg.channel_id, payload)
+
+class InteractionResponse:
+    def __init__(self, interactionDict: InteractionDict):
+        self.payload = {}
+        self.interactionDict = interactionDict
+
+    def _getPayload(self):
+        return self.payload
