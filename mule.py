@@ -1,3 +1,6 @@
+from utils.components import Components
+
+
 def mule_search(name, max, period):
     path = "https://www.mule.co.kr/bbs/market/sell"
     query = "?qf=title"
@@ -25,3 +28,20 @@ def mule_search(name, max, period):
     return_data.append(path+query)
     print(return_data)
     return return_data[2]
+
+def muleTemplate(minPrice: int, maxPrice: int, period: int, name: str):
+    content = name + "\n"
+    content += "최소 가격: " + str(minPrice) + "원\n"
+    content += "최대 가격: " + str(maxPrice)
+    content += "기간: " + str(period) + "\n"
+
+    components = Components()
+    components.addActionRow(
+        Components.make(type=2, label="최소 가격 설정", style=1, custom_id="mule_min_price"),
+        Components.make(type=2, label="최대 가격 설정", style=1, custom_id="mule_max_price")
+    )
+
+    payload = {}
+    payload["content"] = content
+    payload["components"] = components.get()
+    return payload
