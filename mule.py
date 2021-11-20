@@ -32,7 +32,7 @@ def mule_search(name, max, period):
 def muleTemplate(minPrice: int, maxPrice: int, period: int, name: str):
     content = name + "\n"
     content += "최소 가격: " + str(minPrice) + "원\n"
-    content += "최대 가격: " + str(maxPrice)
+    content += "최대 가격: " + str(maxPrice) + "원\n"
     content += "기간: " + str(period) + "\n"
 
     components = Components()
