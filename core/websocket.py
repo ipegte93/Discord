@@ -8,6 +8,7 @@ from .response_handler import ResponseHandler
 class DiscordWebsocket:
     def __init__(self, BOT_TOKEN: str):
         self.TOKEN = BOT_TOKEN
+        self.responseHandler = ResponseHandler(BOT_TOKEN)
 
     def start(self):
         asyncio.run(self.connect())
@@ -43,7 +44,7 @@ class DiscordWebsocket:
     async def __consumer(self, response: dict):
         op = response["op"]
         if op == 0: # Dispatch
-            ResponseHandler(response, self.TOKEN)
+            self.responseHandler.handle(response)
         elif op == 7: # Reconnect
             print(response)
         elif op == 9: # Invalid Session
