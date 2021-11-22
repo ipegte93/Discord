@@ -5,11 +5,10 @@ from utils.struct import *
 from core.restapi import *
 
 class ResponseHandler:
-    def __init__(self, response: dict, BOT_TOKEN: str):
+    def __init__(self, BOT_TOKEN: str):
         self.BOT_TOKEN = BOT_TOKEN
-        self.__handler(response)
 
-    def __handler(self, response: dict):
+    def handle(self, response: dict):
         res = response['t']
         if res == "READY":
             print("BOT READY")
