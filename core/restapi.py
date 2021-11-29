@@ -23,3 +23,7 @@ class RestAPI:
     def sendInChannel(self, channel_id: int, payload: str):
         route = Route("POST", "/channels/{}/messages".format(channel_id))
         asyncio.create_task(self.request(route, payload=payload))
+
+    def editMessage(self, message_id: int, channel_id: int, payload: str):
+        route = Route("PATCH", "/channels/{}/messages/{}".format(channel_id, message_id))
+        asyncio.create_task(self.request(route, payload=payload))

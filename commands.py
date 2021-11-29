@@ -112,7 +112,7 @@ class InteractionResponse:
         self.interactionStruct = interactionStruct
 
         if interactionStruct.custom_id in getDefNameList(self):
-            func = getattr(self, interactionStruct.custom_id)
+            func = getattr(InteractionResponse, interactionStruct.custom_id)
             func(self)
         else:
             self.payload["type"] = 4
@@ -123,4 +123,11 @@ class InteractionResponse:
     def _getPayload(self):
         return self.payload
 
-    
+    def mule_min_price(self):
+        self.payload["type"] = 6
+
+    def mule_max_price(self):
+        self.payload["type"] = 6
+
+    def mule_search(self):
+        self.payload["type"] = 6
