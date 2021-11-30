@@ -7,6 +7,7 @@ from core.restapi import *
 class ResponseHandler:
     def __init__(self, BOT_TOKEN: str):
         self.BOT_TOKEN = BOT_TOKEN
+        self.commands = Commands(self.BOT_TOKEN)
 
     def handle(self, response: dict):
         res = response['t']
@@ -42,7 +43,7 @@ class ResponseHandler:
         print("<{}> {}".format(author["username"], content))
 
         messageStruct = MessageStruct(author, content, message_id, channel_id)
-        Commands(messageStruct, self.BOT_TOKEN)
+        self.commands._check(messageStruct)
 
 #https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
 class InteractionCallback:

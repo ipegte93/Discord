@@ -7,9 +7,8 @@ from utils.struct import *
 from utils.get_def_name_list import getDefNameList
 
 class Commands:
-    def __init__(self, messageStruct: MessageStruct, BOT_TOKEN: str):
+    def __init__(self, BOT_TOKEN: str):
         self._COMMAND_PREFIX = '!'
-        self._messageStruct = messageStruct
         self._api = RestAPI(BOT_TOKEN)
         self._inputMode = 0
 
@@ -17,11 +16,14 @@ class Commands:
             self._inputMode -= 1
             self._input()
 
-        content = self._messageStruct.content
+    def _check(self, messageStruct: MessageStruct):
+        content = messageStruct.content
         if len(content) == 0:
             return
-            
-        if content[0] == self._COMMAND_PREFIX:
+
+        elif content[0] == self._COMMAND_PREFIX:
+            self._messageStruct = messageStruct
+
             content = content[1:].split(" ")
             if content[0] in getDefNameList(self):
                 func = getattr(Commands, content[0])
@@ -35,7 +37,7 @@ class Commands:
                     func(self, args)
 
     def _input(self):
-        print(self._messageStruct.content)        
+        print(self._messageStruct.content)
 
     def help(self):
         payload = {}
@@ -117,7 +119,7 @@ class InteractionResponse:
         else:
             self.payload["type"] = 4
             self.payload["data"] = {
-                "content": "오류: 씨발 이거 기능 없음 -> custom_id: " + interactionStruct.custom_id 
+                "content": "오류: 씨발 이거 기능 없음 -> custom_id: " + interactionStruct.custom_id
             }
 
     def _getPayload(self):
