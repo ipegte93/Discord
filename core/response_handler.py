@@ -41,6 +41,10 @@ class ResponseHandler:
         channel_id = response['d']["channel_id"]
 
         print("<{}> {}".format(author["username"], content))
+        if len(response['d']["attachments"]) != 0:
+            print("=====Attachment=====")
+            for attachment in response['d']["attachments"]:
+                print(attachment["url"])
 
         messageStruct = MessageStruct(author, content, message_id, channel_id)
         self.commands._check(messageStruct)
