@@ -17,6 +17,8 @@ class ResponseHandler:
             self.__parser(response)
         elif res == "GUILD_CREATE":
             pass
+        elif res == "GUILD_MEMBER_UPDATE":
+            pass
         elif res == "INTERACTION_CREATE":
             if response['d']["type"] == 3:
                 data = response['d']["data"]
