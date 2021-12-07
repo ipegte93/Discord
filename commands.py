@@ -7,7 +7,8 @@ from utils.struct import *
 from utils.get_def_name_list import getDefNameList
 
 class Commands:
-    def __init__(self, BOT_TOKEN: str):
+    def __init__(self, BOT_TOKEN: str, user_data):
+        self.user_data = user_data
         self._COMMAND_PREFIX = '!'
         self._api = RestAPI(BOT_TOKEN)
         self._inputMode = 0
@@ -36,9 +37,6 @@ class Commands:
                 except:
                     func(self, args)
 
-    def _input(self):
-        print(self._messageStruct.content)
-
     def help(self):
         payload = {}
         content = ""
@@ -60,6 +58,8 @@ class Commands:
         exit()
 
     def test(self, args):
+        print(self._messageStruct.author)
+
         msg = "시발년아 "
         if args is not None:
             for text in args:
@@ -83,8 +83,6 @@ class Commands:
 
         payload["components"] = components.get()
 
-        print(payload)
-
         self._api.sendInChannel(self._messageStruct.channel_id, payload)
 
     def mule(self, args):
@@ -101,11 +99,13 @@ class Commands:
 
     def new_mule(self, args):
         if args is None:
-            self.mule = Mule()
+            mule = Mule()
         else:
-            self.mule = Mule(search=args[0])
+            mule = Mule(search=args[0])
 
-        payload = self.mule.template()
+        payload = mule.template()
+
+        self.user_data["mule"] = mule
         self._api.sendInChannel(self._messageStruct.channel_id, payload)
 
 class InteractionResponse:

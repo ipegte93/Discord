@@ -56,7 +56,7 @@ class DiscordWebsocket:
         elif op == 11: #Heartbeat ACK
             asyncio.create_task(self.__heartbeat())
         else:
-            print(response)        
+            print(response)
 
     async def __heartbeat(self):
         await asyncio.sleep(self.heartbeat_interval)

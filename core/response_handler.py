@@ -6,8 +6,10 @@ from core.restapi import *
 
 class ResponseHandler:
     def __init__(self, BOT_TOKEN: str):
+        self.user_data = {}
+
         self.BOT_TOKEN = BOT_TOKEN
-        self.commands = Commands(self.BOT_TOKEN)
+        self.commands = Commands(self.BOT_TOKEN, self.user_data)
 
     def handle(self, response: dict):
         res = response['t']
