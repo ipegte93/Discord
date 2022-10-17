@@ -4,6 +4,7 @@ from commands import *
 from utils.struct import *
 from core.restapi import *
 
+
 class ResponseHandler:
     def __init__(self, BOT_TOKEN: str):
         self.user_data = {}
@@ -53,7 +54,7 @@ class ResponseHandler:
         messageStruct = MessageStruct(author, content, message_id, channel_id)
         self.commands._check(messageStruct)
 
-#https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
+# https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
 class InteractionCallback:
     def __init__(self, BOT_TOKEN, interactionStruct: InteractionStruct):
         self.BOT_TOKEN = BOT_TOKEN
@@ -64,4 +65,4 @@ class InteractionCallback:
         payload = command_response._getPayload()
 
         http = RestAPI(self.BOT_TOKEN)
-        asyncio.create_task(http.request(Route("POST", "/interactions/{}/{}/callback".format(self.interactionStruct.interaction_id, self.interactionStruct.interaction_token)),payload=payload))
+        asyncio.create_task(http.request(Route("POST", f"/interactions/{self.interactionStruct.interaction_id}/{self.interactionStruct.interaction_token}/callback"), payload=payload))
