@@ -1,6 +1,9 @@
 ﻿# Discord
 ## Discord BOT
 
-### import list
-- aiohttp
-- websockets
+## Setup
+To Download dependency modules, Run below the command.
+```
+pipenv lock
+```
+

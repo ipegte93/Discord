@@ -1,5 +1,6 @@
 .vscode
 __pycache__
+Pipfile.lock
 
 start.sh
 token
