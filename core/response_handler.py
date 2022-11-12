@@ -2,7 +2,8 @@ import asyncio
 
 from commands import *
 from utils.struct import *
-from core.restapi import *
+from core.restapi import RestAPI
+from core.route import Route
 
 
 class ResponseHandler:

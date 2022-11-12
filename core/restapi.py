@@ -1,17 +1,13 @@
 import aiohttp
 import asyncio
 
-
-class Route:
-    def __init__(self, method: str, path: str) -> None:
-        self.url = "https://discord.com/api/v9" + path
-        self.method = method
+from core.route import Route
 
 
 class RestAPI:
     def __init__(self, BOT_TOKEN: str) -> None:
         self.headers = dict()
-        self.headers['authorization'] = "Bot " + BOT_TOKEN
+        self.headers["authorization"] = f"Bot {BOT_TOKEN}"
 
     async def request(self, route: Route, **kwargs: any) -> None:
         payload = None
